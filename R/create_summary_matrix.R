@@ -38,7 +38,26 @@
 # ---------------- 
 # Assuming cancer_subset@meta.data is already defined and loaded
 
-# Split data into chunks for parallel processing
+
+
+
+
+
+
+
+# distances now contains the Euclidean distances for each chunk of data
+# Depending on your next steps, you might want to combine or further process these results
+
+
+create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE, modify_results = TRUE, mc.cores = 1,
+                                  min_prop = 0.5, breast_mode = F, fine_grained_T = T, confidence_cutoff = T, pan_cancer = F,
+                                  cancer_confidence = "default", normal_tissue = F, low_res_mode = FALSE,
+                                  known_cancer_type = NULL){
+  
+  # Define the number of cores to use
+  num_cores <- parallel::detectCores() - 1 
+
+  # Split data into chunks for parallel processing
 split_data_into_chunks <- function(data, n) {
   split(data, cut(seq_along(data[[1]]), n, labels = FALSE))
 }
@@ -73,24 +92,7 @@ calculate_distances_parallel <- function(data, num_cores) {
   return(results)
 }
 
-# ---------------
-
-
-
-
-
-
-# distances now contains the Euclidean distances for each chunk of data
-# Depending on your next steps, you might want to combine or further process these results
-
-
-create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE, modify_results = TRUE, mc.cores = 1,
-                                  min_prop = 0.5, breast_mode = F, fine_grained_T = T, confidence_cutoff = T, pan_cancer = F,
-                                  cancer_confidence = "default", normal_tissue = F, low_res_mode = FALSE,
-                                  known_cancer_type = NULL){
-  
-  # Define the number of cores to use
-  num_cores <- parallel::detectCores() - 1                                   
+# ---------------                                  
 
   if(.Platform$OS.type == "windows"){
     mc.cores = 1
