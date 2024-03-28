@@ -79,8 +79,6 @@ calculate_distances_parallel <- function(data, num_cores) {
 
 
 
-# Calculate distances in parallel
-distances <- calculate_distances_parallel(cancer_subset_meta_data, num_cores)
 
 # distances now contains the Euclidean distances for each chunk of data
 # Depending on your next steps, you might want to combine or further process these results
