@@ -637,7 +637,7 @@ create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE,
 
       ###  dist_cancer_signature <- amap::Dist(cancer_subset@meta.data[,c("upreg_genes1", "downreg_genes2")], method = "euclidean", nbproc = mc.cores) # distance matrix
         
-        dist_cancer_signature <- calculate_distances_parallel(cancer_subset_meta_data, num_cores)
+        dist_cancer_signature <- calculate_distances_parallel(cancer_subset, num_cores)
         
         fit_clusters <- hclust(dist_cancer_signature, method="ward.D2")
 
@@ -706,7 +706,7 @@ create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE,
               cancer_subset <- Seurat::AddModuleScore(cancer_subset, features = list(upreg_genes = genes_upreg_shared, downreg_genes = genes_downreg_shared), verbose = F, name = c("upreg_genes", "downreg_genes"), assay = "MAGIC_RNA")
 
               ##  dist_cancer_signature <- amap::Dist(cancer_subset@meta.data[,c("upreg_genes1", "downreg_genes2")], method = "euclidean", nbproc = mc.cores) # distance matrix
-              dist_cancer_signature <- calculate_distances_parallel(cancer_subset_meta_data, num_cores)
+              dist_cancer_signature <- calculate_distances_parallel(cancer_subset, num_cores)
 
               #hierarcherical clustering based on these scores
               fit_clusters <- hclust(dist_cancer_signature, method="ward.D2")
@@ -1597,7 +1597,7 @@ create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE,
 
         
         ## dist_cancer_signature <- amap::Dist(cancer_subset@meta.data[,c("upreg_genes1", "downreg_genes2")], method = "euclidean", nbproc = mc.cores) # distance matrix
-        dist_cancer_signature <- calculate_distances_parallel(cancer_subset_meta_data, num_cores)
+        dist_cancer_signature <- calculate_distances_parallel(cancer_subset, num_cores)
 
         fit_clusters <- hclust(dist_cancer_signature, method="ward.D2")
 
@@ -1668,7 +1668,7 @@ create_summary_matrix <- function(raw_counts, prediction_list, use_CNVs = FALSE,
 
               
               ## dist_cancer_signature <- amap::Dist(cancer_subset@meta.data[,c("upreg_genes1", "downreg_genes2")], method = "euclidean", nbproc = mc.cores) # distance matrix
-              dist_cancer_signature <- calculate_distances_parallel(cancer_subset_meta_data, num_cores)
+              dist_cancer_signature <- calculate_distances_parallel(cancer_subset, num_cores)
 
               #hierarcherical clustering based on these scores
               fit_clusters <- hclust(dist_cancer_signature, method="ward.D2")
