@@ -69,20 +69,20 @@ process_chunk <- function(chunk) {
 
 # Main function to calculate distances in parallel
 calculate_distances_parallel <- function(data, num_cores) {
-  # Assuming cancer_subset@meta.data is your dataset
-  # Ensure it's a dataframe for this example to work
-  data <- as.data.frame(data@meta.data)
+  # Ensure data is a dataframe for this example to work
+  data <- as.data.frame(data[, c("upreg_genes1", "downreg_genes2")])
 
   # Split data into a list of chunks equal to the number of cores
-  data_chunks <- split_data_into_chunks(data[, c("upreg_genes1", "downreg_genes2")], num_cores)
+  data_chunks <- split_data_into_chunks(data, num_cores)
   
   # Create a cluster using the specified number of cores
   cl <- parallel::makeCluster(num_cores)
   
-  # Export the chunk data to the cluster
-  parallel::clusterExport(cl, varlist = c("data_chunks", "process_chunk"))
-  
+  # Export the 'process_chunk' function to the cluster
+  parallel::clusterExport(cl, varlist = c("process_chunk"), envir = environment())
+
   # Use parLapply to process each chunk in parallel
+  # Pass the data_chunks directly as the list to be processed
   results <- parallel::parLapply(cl, data_chunks, process_chunk)
   
   # Stop the cluster
@@ -91,6 +91,7 @@ calculate_distances_parallel <- function(data, num_cores) {
   # Return the results
   return(results)
 }
+
 
 # ---------------                                  
 
